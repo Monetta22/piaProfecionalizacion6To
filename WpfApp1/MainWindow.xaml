@@ -33,18 +33,25 @@
  </Trigger>
  </Style.Triggers>
  </Style>
- <!-- Tarjeta de servicio -->
+ <!-- Tarjeta reutilizable -->
  <Style x:Key="ServiceCard" TargetType="Border">
  <Setter Property="Background" Value="#232323"/>
- <Setter Property="CornerRadius" Value="8"/>
+ <Setter Property="CornerRadius" Value="10"/>
  <Setter Property="Padding" Value="16"/>
  <Setter Property="Margin" Value="0,0,18,18"/>
  <Setter Property="Width" Value="260"/>
  <Setter Property="Effect">
  <Setter.Value>
- <DropShadowEffect Color="#000" BlurRadius="10" ShadowDepth="2" Opacity="0.35"/>
+ <DropShadowEffect Color="#000" BlurRadius="12" ShadowDepth="2" Opacity="0.42"/>
  </Setter.Value>
  </Setter>
+ </Style>
+ <!-- Estrella rating -->
+ <Style x:Key="StarText" TargetType="TextBlock">
+ <Setter Property="FontSize" Value="15"/>
+ <Setter Property="Foreground" Value="#FFC107"/>
+ <Setter Property="FontFamily" Value="Segoe UI"/>
+ <Setter Property="Margin" Value="0,0,4,0"/>
  </Style>
  <!-- Título sección -->
  <Style x:Key="SectionTitle" TargetType="TextBlock">
@@ -54,7 +61,7 @@
  <Setter Property="Margin" Value="0,0,0,14"/>
  </Style>
  </Window.Resources>
- <Grid>
+ <Grid Margin="0">
  <Grid.ColumnDefinitions>
  <ColumnDefinition Width="220"/>
  <ColumnDefinition Width="*"/>
@@ -69,22 +76,19 @@
  <DockPanel>
  <TextBlock Text="Portal de Servicios de Ciberseguridad" FontSize="20" FontWeight="Bold" Foreground="White"/>
  <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
- <Button Content="Contacto" Style="{StaticResource PrimaryButton}" Padding="14,6"/>
- <Button Content="Salir" Margin="10,0,0,0" Background="#E53935" Foreground="White" Padding="14,6" BorderThickness="0"/>
+ <Button Content="Salir" Margin="10,0,0,0" Background="#E53935" Foreground="White" Padding="14,6" BorderThickness="0" Click="Salir_Click"/>
  </StackPanel>
  </DockPanel>
  </Border>
  <!-- Menú lateral -->
  <StackPanel Grid.Row="1" Grid.Column="0" Background="#181818">
  <TextBlock Text="Menú" FontSize="16" FontWeight="Bold" Foreground="White" Margin="14,16,14,8"/>
- <Button Content="Inicio" Style="{StaticResource PrimaryButton}" Margin="14,0,14,8"/>
- <Button Content="Servicios" Background="#424242" Foreground="White" Padding="12,6" Margin="14,0,14,8" BorderThickness="0"/>
- <Button Content="Clientes" Background="#424242" Foreground="White" Padding="12,6" Margin="14,0,14,8" BorderThickness="0"/>
- <Button Content="Nosotros" Background="#424242" Foreground="White" Padding="12,6" Margin="14,0,14,8" BorderThickness="0"/>
- <Button Content="Reportes" Background="#424242" Foreground="White" Padding="12,6" Margin="14,0,14,8" BorderThickness="0"/>
+ <Button Content="Servicios" Background="#424242" Foreground="White" Padding="12,6" Margin="14,0,14,8" BorderThickness="0" Click="Servicios_Click"/>
+ <Button Content="Clientes" Background="#424242" Foreground="White" Padding="12,6" Margin="14,0,14,8" BorderThickness="0" Click="Clientes_Click"/>
+ <Button Content="Nosotros" Background="#424242" Foreground="White" Padding="12,6" Margin="14,0,14,8" BorderThickness="0" Click="Nosotros_Click"/>
  </StackPanel>
- <!-- Zona central: Servicios -->
- <Border Grid.Row="1" Grid.Column="1" Margin="16" Background="#1F1F1F" CornerRadius="10" Padding="22">
+ <!-- Panel Servicios -->
+ <Border x:Name="ServicesPanel" Grid.Row="1" Grid.Column="1" Margin="16" Background="#1F1F1F" CornerRadius="10" Padding="22">
  <ScrollViewer VerticalScrollBarVisibility="Auto">
  <StackPanel>
  <TextBlock Text="Servicios Destacados" Style="{StaticResource SectionTitle}"/>
@@ -95,7 +99,7 @@
  <TextBlock Text="Consultoría y Auditoría" FontSize="16" FontWeight="Bold" Foreground="#FAFAFA"/>
  <TextBlock Text="Evaluación de vulnerabilidades, auditorías y plan de mejora personalizado." TextWrapping="Wrap" Foreground="#CCCCCC" Margin="0,6,0,8"/>
  <TextBlock Text="Desde $1,500" Foreground="#4CAF50" FontWeight="Bold"/>
- <Button Content="Contratar" Style="{StaticResource PrimaryButton}" Click="Button_Click"/>
+ <Button Content="Contratar" Style="{StaticResource PrimaryButton}" Tag="Consultoria" Click="ServiceContract_Click"/>
  </StackPanel>
  </Border>
  <!-- Servicio2 -->
@@ -104,7 +108,7 @@
  <TextBlock Text="Capacitaciones Técnicas" FontSize="16" FontWeight="Bold" Foreground="#FAFAFA"/>
  <TextBlock Text="Cursos prácticos: hardening, respuesta a incidentes, forense y malware." TextWrapping="Wrap" Foreground="#CCCCCC" Margin="0,6,0,8"/>
  <TextBlock Text="Desde $900" Foreground="#4CAF50" FontWeight="Bold"/>
- <Button Content="Contratar" Style="{StaticResource PrimaryButton}"/>
+ <Button Content="Contratar" Style="{StaticResource PrimaryButton}" Tag="Capacitaciones" Click="ServiceContract_Click"/>
  </StackPanel>
  </Border>
  <!-- Servicio3 -->
@@ -113,15 +117,98 @@
  <TextBlock Text="Herramientas / Suites" FontSize="16" FontWeight="Bold" Foreground="#FAFAFA"/>
  <TextBlock Text="Implementación de SIEM, EDR y escáneres de vulnerabilidades." TextWrapping="Wrap" Foreground="#CCCCCC" Margin="0,6,0,8"/>
  <TextBlock Text="Desde $2,300" Foreground="#4CAF50" FontWeight="Bold"/>
- <Button Content="Contratar" Style="{StaticResource PrimaryButton}"/>
+ <Button Content="Contratar" Style="{StaticResource PrimaryButton}" Tag="Herramientas" Click="ServiceContract_Click"/>
  </StackPanel>
  </Border>
  </WrapPanel>
  </StackPanel>
  </ScrollViewer>
  </Border>
- <!-- Panel derecho: notas / indicadores -->
- <Border Grid.Row="1" Grid.Column="2" Background="#181818" Padding="18" BorderBrush="#333" BorderThickness="1" CornerRadius="10" Margin="16">
+ <!-- Panel Clientes -->
+ <Border x:Name="ClientsPanel" Grid.Row="1" Grid.Column="1" Margin="16" Background="#1F1F1F" CornerRadius="10" Padding="22" Visibility="Collapsed">
+ <ScrollViewer VerticalScrollBarVisibility="Auto">
+ <StackPanel>
+ <TextBlock Text="Nuestros Clientes" Style="{StaticResource SectionTitle}"/>
+ <WrapPanel>
+ <!-- Grandes Corporativos -->
+ <Border Style="{StaticResource ServiceCard}"><StackPanel>
+ <TextBlock Text="Cemex" FontSize="16" FontWeight="Bold" Foreground="#FAFAFA"/>
+ <StackPanel Orientation="Horizontal" Margin="0,6,0,6"><TextBlock Style="{StaticResource StarText}" Text="★★★★★"/><TextBlock Text="4.9" Foreground="#BDBDBD" FontSize="14"/></StackPanel>
+ <TextBlock Text="Industria: Construcción" Foreground="#888" FontSize="12"/>
+ </StackPanel></Border>
+ <Border Style="{StaticResource ServiceCard}"><StackPanel>
+ <TextBlock Text="Grupo Bimbo" FontSize="16" FontWeight="Bold" Foreground="#FAFAFA"/>
+ <StackPanel Orientation="Horizontal" Margin="0,6,0,6"><TextBlock Style="{StaticResource StarText}" Text="★★★★☆"/><TextBlock Text="4.6" Foreground="#BDBDBD" FontSize="14"/></StackPanel>
+ <TextBlock Text="Industria: Alimentos" Foreground="#888" FontSize="12"/>
+ </StackPanel></Border>
+ <Border Style="{StaticResource ServiceCard}"><StackPanel>
+ <TextBlock Text="Telcel" FontSize="16" FontWeight="Bold" Foreground="#FAFAFA"/>
+ <StackPanel Orientation="Horizontal" Margin="0,6,0,6"><TextBlock Style="{StaticResource StarText}" Text="★★★★☆"/><TextBlock Text="4.7" Foreground="#BDBDBD" FontSize="14"/></StackPanel>
+ <TextBlock Text="Industria: Telecom" Foreground="#888" FontSize="12"/>
+ </StackPanel></Border>
+ <Border Style="{StaticResource ServiceCard}"><StackPanel>
+ <TextBlock Text="Lenovo" FontSize="16" FontWeight="Bold" Foreground="#FAFAFA"/>
+ <StackPanel Orientation="Horizontal" Margin="0,6,0,6"><TextBlock Style="{StaticResource StarText}" Text="★★★★★"/><TextBlock Text="5.0" Foreground="#BDBDBD" FontSize="14"/></StackPanel>
+ <TextBlock Text="Industria: Tecnología" Foreground="#888" FontSize="12"/>
+ </StackPanel></Border>
+ <Border Style="{StaticResource ServiceCard}"><StackPanel>
+ <TextBlock Text="Accenture" FontSize="16" FontWeight="Bold" Foreground="#FAFAFA"/>
+ <StackPanel Orientation="Horizontal" Margin="0,6,0,6"><TextBlock Style="{StaticResource StarText}" Text="★★★★★"/><TextBlock Text="4.8" Foreground="#BDBDBD" FontSize="14"/></StackPanel>
+ <TextBlock Text="Industria: Consultoría" Foreground="#888" FontSize="12"/>
+ </StackPanel></Border>
+ <Border Style="{StaticResource ServiceCard}"><StackPanel>
+ <TextBlock Text="Neoris" FontSize="16" FontWeight="Bold" Foreground="#FAFAFA"/>
+ <StackPanel Orientation="Horizontal" Margin="0,6,0,6"><TextBlock Style="{StaticResource StarText}" Text="★★★★☆"/><TextBlock Text="4.5" Foreground="#BDBDBD" FontSize="14"/></StackPanel>
+ <TextBlock Text="Industria: IT Services" Foreground="#888" FontSize="12"/>
+ </StackPanel></Border>
+ <!-- Empresas medianas / startups -->
+ <Border Style="{StaticResource ServiceCard}"><StackPanel>
+ <TextBlock Text="Fintech MX" FontSize="16" FontWeight="Bold" Foreground="#FAFAFA"/>
+ <StackPanel Orientation="Horizontal" Margin="0,6,0,6"><TextBlock Style="{StaticResource StarText}" Text="★★★★☆"/><TextBlock Text="4.4" Foreground="#BDBDBD" FontSize="14"/></StackPanel>
+ <TextBlock Text="Sector: Finanzas" Foreground="#888" FontSize="12"/>
+ </StackPanel></Border>
+ <Border Style="{StaticResource ServiceCard}"><StackPanel>
+ <TextBlock Text="HealthTech" FontSize="16" FontWeight="Bold" Foreground="#FAFAFA"/>
+ <StackPanel Orientation="Horizontal" Margin="0,6,0,6"><TextBlock Style="{StaticResource StarText}" Text="★★★★☆"/><TextBlock Text="4.3" Foreground="#BDBDBD" FontSize="14"/></StackPanel>
+ <TextBlock Text="Sector: Salud" Foreground="#888" FontSize="12"/>
+ </StackPanel></Border>
+ <Border Style="{StaticResource ServiceCard}"><StackPanel>
+ <TextBlock Text="LogiPyme" FontSize="16" FontWeight="Bold" Foreground="#FAFAFA"/>
+ <StackPanel Orientation="Horizontal" Margin="0,6,0,6"><TextBlock Style="{StaticResource StarText}" Text="★★★☆☆"/><TextBlock Text="3.9" Foreground="#BDBDBD" FontSize="14"/></StackPanel>
+ <TextBlock Text="Sector: Logística" Foreground="#888" FontSize="12"/>
+ </StackPanel></Border>
+ <Border Style="{StaticResource ServiceCard}"><StackPanel>
+ <TextBlock Text="AgroData" FontSize="16" FontWeight="Bold" Foreground="#FAFAFA"/>
+ <StackPanel Orientation="Horizontal" Margin="0,6,0,6"><TextBlock Style="{StaticResource StarText}" Text="★★★★☆"/><TextBlock Text="4.2" Foreground="#BDBDBD" FontSize="14"/></StackPanel>
+ <TextBlock Text="Sector: Agro" Foreground="#888" FontSize="12"/>
+ </StackPanel></Border>
+ </WrapPanel>
+ </StackPanel>
+ </ScrollViewer>
+ </Border>
+ <!-- Panel Nosotros (About) -->
+ <Border x:Name="AboutPanel" Grid.Row="1" Grid.Column="1" Margin="16" Background="#1F1F1F" CornerRadius="10" Padding="22" Visibility="Collapsed">
+ <ScrollViewer VerticalScrollBarVisibility="Auto">
+ <StackPanel>
+ <TextBlock Text="Sobre Nosotros" Style="{StaticResource SectionTitle}"/>
+ <TextBlock Text="Somos NexusSecure Consulting, firma mexicana enfocada en ciberseguridad estrategica, proteccion de infraestructura critica y evolucion de la madurez tecnologica." TextWrapping="Wrap" Foreground="#CCCCCC" Margin="0,0,0,12"/>
+ <TextBlock Text="Mision" FontSize="18" FontWeight="SemiBold" Foreground="White" Margin="0,8,0,6"/>
+ <TextBlock Text="Proteger activos digitales y continuidad operativa mediante acciones proactivas basadas en riesgo y alineadas a objetivos del negocio." TextWrapping="Wrap" Foreground="#BDBDBD" Margin="0,0,0,12"/>
+ <TextBlock Text="Enfoque" FontSize="18" FontWeight="SemiBold" Foreground="White" Margin="0,8,0,6"/>
+ <TextBlock Text="Framework integral: NIST CSF, MITRE ATT&amp;CK, Zero Trust y CIS Controls. Combinamos evaluacion, automatizacion y respuesta avanzada." TextWrapping="Wrap" Foreground="#BDBDBD" Margin="0,0,0,12"/>
+ <TextBlock Text="Capacidades Clave" FontSize="18" FontWeight="SemiBold" Foreground="White" Margin="0,8,0,6"/>
+ <TextBlock Text="• Auditoria y compliance • Threat Hunting • Implementacion SIEM/EDR/SOAR • DevSecOps • Deteccion y respuesta a incidentes • Formacion tecnica" TextWrapping="Wrap" Foreground="#BDBDBD" Margin="0,0,0,12"/>
+ <TextBlock Text="Equipo Certificado" FontSize="18" FontWeight="SemiBold" Foreground="White" Margin="0,8,0,6"/>
+ <TextBlock Text="CISSP, OSCP, CEH, ISO27001 Lead Auditor, Azure/AWS Security, GIAC Forensics &amp; Incident Response." TextWrapping="Wrap" Foreground="#BDBDBD" Margin="0,0,0,12"/>
+ <TextBlock Text="Valores" FontSize="18" FontWeight="SemiBold" Foreground="White" Margin="0,8,0,6"/>
+ <TextBlock Text="Integridad, transparencia, confidencialidad, mejora continua y foco en la resiliencia del cliente." TextWrapping="Wrap" Foreground="#BDBDBD" Margin="0,0,0,12"/>
+ <TextBlock Text="Vision" FontSize="18" FontWeight="SemiBold" Foreground="White" Margin="0,8,0,6"/>
+ <TextBlock Text="Ser referente latinoamericano en servicios gestionados y consultoria de ciberseguridad basados en inteligencia accionable." TextWrapping="Wrap" Foreground="#BDBDBD" Margin="0,0,0,12"/>
+ </StackPanel>
+ </ScrollViewer>
+ </Border>
+ <!-- Panel derecho estático -->
+ <Border Grid.Row="1" Grid.Column="2" Background="#181818" Padding="18" BorderBrush="#333" BorderThickness="1" CornerRadius="10" Margin="16" VerticalAlignment="Stretch">
  <StackPanel>
  <TextBlock Text="Notas / Requerimientos" FontSize="16" FontWeight="Bold" Foreground="White"/>
  <TextBlock Text="Anota detalles del cliente antes de enviar una propuesta." Foreground="#BDBDBD" Margin="0,8,0,12" TextWrapping="Wrap"/>

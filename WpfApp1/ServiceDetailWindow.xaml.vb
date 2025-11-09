@@ -11,6 +11,7 @@ Public Class ServiceDetailWindow
         _serviceKey = serviceKey
         LoadService()
         AddHandlers()
+        LoadFeatures()
     End Sub
 
     Private Sub LoadService()
@@ -25,6 +26,46 @@ Public Class ServiceDetailWindow
         EquipoText.Text = info.Team
         CasosText.Text = "• " & String.Join(Environment.NewLine & "• ", info.CaseStudies)
         Me.Title = "Detalle: " & info.Name
+    End Sub
+
+    Private Sub LoadFeatures()
+        Dim baseFeatures As New List(Of String)
+        Select Case _serviceKey.ToLowerInvariant()
+            Case "consultoria"
+                baseFeatures.AddRange(New String() {
+                    "Cobertura OWASP Top10 + CIS Benchmarks",
+                    "Escaneo autenticado y no autenticado",
+                    "Revisión de políticas y procedimientos críticos",
+                    "Sesión ejecutiva de hallazgos prioritarios",
+                    "Roadmap de madurez de seguridad a12 meses"
+                })
+            Case "capacitaciones"
+                baseFeatures.AddRange(New String() {
+                    "Laboratorio aislado para ejercicios de ataque/defensa",
+                    "Simulaciones de incidentes basadas en MITRE ATT&CK",
+                    "Material actualizado trimestralmente",
+                    "Panel de progreso individual y por equipo",
+                    "Acceso a microlearning post curso durante6 meses"
+                })
+            Case "herramientas"
+                baseFeatures.AddRange(New String() {
+                    "Arquitectura de referencia multi-cloud",
+                    "Integración con Active Directory / Entra ID",
+                    "Playbooks iniciales para respuesta automatizada",
+                    "Dashboards ejecutivos KPI + métricas técnicas",
+                    "Capacitación operativa de tuning y mantenimiento"
+                })
+            Case Else
+                baseFeatures.AddRange(New String() {
+                    "Soporte estándar",
+                    "Documentación básica",
+                    "Reporte resumido de avance"
+                })
+        End Select
+        Dim ic = TryCast(Me.FindName("FeaturesList"), ItemsControl)
+        If ic IsNot Nothing Then
+            ic.ItemsSource = baseFeatures
+        End If
     End Sub
 
     Private Sub AddHandlers()
