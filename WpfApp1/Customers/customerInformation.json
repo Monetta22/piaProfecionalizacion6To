@@ -1,0 +1,23 @@
+[
+  {},
+  {
+    "Servicio": "Consultoria",
+    "Empresa": "prueba",
+    "Correo": "probando@com.mx",
+    "Telefono": "83223394",
+    "Representante": "Juan",
+    "Mensaje": "Este mensaje es una prueba",
+    "Costo": "Desde $1,500",
+    "Fecha": "2025-11-09T17:22:12"
+  },
+  {
+    "Servicio": "Consultoria",
+    "Empresa": "Universidad Tecnologica Escobedo",
+    "Correo": "universidad@ute.com",
+    "Telefono": "8229425323",
+    "Representante": "Rector Gutierrez",
+    "Mensaje": "Me gustaria compartir ese servicio atravez de mis docentes y personal administrativo",
+    "Costo": "Desde $1,500",
+    "Fecha": "2025-11-09T17:26:37"
+  }
+]
