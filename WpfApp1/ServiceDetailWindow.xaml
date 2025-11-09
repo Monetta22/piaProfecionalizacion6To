@@ -1,0 +1,47 @@
+<Window x:Class="ServiceDetailWindow"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ Title="Detalle Servicio" Height="600" Width="780" Background="#121212">
+ <Grid Margin="20">
+ <Grid.RowDefinitions>
+ <RowDefinition Height="Auto"/>
+ <RowDefinition Height="*"/>
+ <RowDefinition Height="Auto"/>
+ </Grid.RowDefinitions>
+ <StackPanel>
+ <TextBlock x:Name="TitleText" FontSize="24" FontWeight="Bold" Foreground="White"/>
+ <TextBlock x:Name="PriceText" FontSize="16" Foreground="#4CAF50" Margin="0,4,0,12"/>
+ <TextBlock x:Name="SummaryText" TextWrapping="Wrap" Foreground="#DDDDDD" Margin="0,0,0,16"/>
+ </StackPanel>
+ <Grid Grid.Row="1" Margin="0,10,0,10">
+ <Grid.ColumnDefinitions>
+ <ColumnDefinition Width="*"/>
+ <ColumnDefinition Width="*"/>
+ </Grid.ColumnDefinitions>
+ <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
+ <StackPanel Margin="0,0,16,0">
+ <TextBlock Text="Entregables" FontSize="18" FontWeight="SemiBold" Foreground="White"/>
+ <TextBlock x:Name="DeliverablesText" TextWrapping="Wrap" Foreground="#B0BEC5" Margin="0,6,0,16"/>
+ <TextBlock Text="Beneficios" FontSize="18" FontWeight="SemiBold" Foreground="White"/>
+ <TextBlock x:Name="BenefitsText" TextWrapping="Wrap" Foreground="#B0BEC5" Margin="0,6,0,16"/>
+ </StackPanel>
+ </ScrollViewer>
+ <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
+ <StackPanel>
+ <TextBlock Text="Duracion" FontSize="18" FontWeight="SemiBold" Foreground="White"/>
+ <TextBlock x:Name="DurationText" Foreground="#B0BEC5" Margin="0,6,0,12"/>
+ <TextBlock Text="SLA" FontSize="18" FontWeight="SemiBold" Foreground="White"/>
+ <TextBlock x:Name="SlaText" Foreground="#B0BEC5" Margin="0,6,0,12"/>
+ <TextBlock Text="Equipo Asignado" FontSize="18" FontWeight="SemiBold" Foreground="White"/>
+ <TextBlock x:Name="EquipoText" TextWrapping="Wrap" Foreground="#B0BEC5" Margin="0,6,0,12"/>
+ <TextBlock Text="Casos de Exito" FontSize="18" FontWeight="SemiBold" Foreground="White"/>
+ <TextBlock x:Name="CasosText" TextWrapping="Wrap" Foreground="#B0BEC5" Margin="0,6,0,12"/>
+ </StackPanel>
+ </ScrollViewer>
+ </Grid>
+ <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+ <Button Content="Cerrar" Width="110" Padding="10,4" Background="#424242" Foreground="White" BorderThickness="0" IsCancel="True"/>
+ <Button Content="Solicitar" Width="160" Margin="12,0,0,0" Padding="10,4" Background="#2962FF" Foreground="White" BorderThickness="0"/>
+ </StackPanel>
+ </Grid>
+</Window>
